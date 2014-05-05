@@ -12,7 +12,7 @@ if($wpdb->get_results("SHOW FULL COLUMNS FROM `".WPSC_TABLE_REGION_TAX."` LIKE '
   if($wpdb->get_var("SELECT COUNT(*) FROM `".WPSC_TABLE_REGION_TAX."` WHERE `code` NOT IN ('')") < 51) {
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AL' WHERE `name` IN ('Alabama') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AK' WHERE `name` IN ('Alaska') LIMIT 1 ;"));
-    $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AZ' WHERE `name` IN ('Arizona') LIMIT 1 ;");
+    $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AZ' WHERE `name` IN ('Arizona') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AR' WHERE `name` IN ('Arkansas') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'CA' WHERE `name` IN ('California') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'CO' WHERE `name` IN ('Colorado') LIMIT 1 ;"));
@@ -60,7 +60,7 @@ if($wpdb->get_results("SHOW FULL COLUMNS FROM `".WPSC_TABLE_REGION_TAX."` LIKE '
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'DC' WHERE `name` IN ('Washington DC') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'WV' WHERE `name` IN ('West Virginia') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'WI' WHERE `name` IN ('Wisconsin') LIMIT 1 ;"));
-    $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'WY' WHERE `name` IN ('Wyoming') LIMIT 1 ;");
+    $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'WY' WHERE `name` IN ('Wyoming') LIMIT 1 ;"));
   }
 }
 
