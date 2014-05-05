@@ -8,7 +8,7 @@ if(get_option('wpsc_trackingid_subject') == ''){
 }
 
 if($wpdb->get_results("SHOW FULL COLUMNS FROM `".WPSC_TABLE_REGION_TAX."` LIKE 'code';",ARRAY_A)) {
-
+//updated with prepare
   if($wpdb->get_var("SELECT COUNT(*) FROM `".WPSC_TABLE_REGION_TAX."` WHERE `code` NOT IN ('')") < 51) {
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AL' WHERE `name` IN ('Alabama') LIMIT 1 ;"));
     $wpdb->query($wpdb->prepare("UPDATE `".WPSC_TABLE_REGION_TAX."` SET `code` = 'AK' WHERE `name` IN ('Alaska') LIMIT 1 ;"));
