@@ -2,8 +2,9 @@
 // by default, expire stats cache after 48 hours
 // this doesn't have any effect if you're not using APC or memcached
 
-if ( ! defined( 'WPSC_PURCHASE_LOG_STATS_CACHE_EXPIRE' ) )
+if ( ! defined( 'WPSC_PURCHASE_LOG_STATS_CACHE_EXPIRE' ) ) {
 	define( 'WPSC_PURCHASE_LOG_STATS_CACHE_EXPIRE', DAY_IN_SECONDS * 2 );
+}
 
 class WPSC_Purchase_Log {
 	const INCOMPLETE_SALE  = 1;
@@ -105,7 +106,7 @@ class WPSC_Purchase_Log {
 	 *            Has no effect if per_page is set to 0.
 	 *
 	 * @since 3.8.14
-	 * @param  array $args Arguments
+	 * @param  array|string $args Arguments
 	 * @return array       Array containing 'sales' and 'earnings' stats
 	 */
 	public static function fetch_stats( $args ) {
@@ -140,7 +141,7 @@ class WPSC_Purchase_Log {
 			return null;
 		}
 
-		$need_fetching = array();
+		$needs_fetching = array();
 
 		$stats = array(
 			'sales'    => 0,
@@ -472,11 +473,12 @@ class WPSC_Purchase_Log {
 	}
 
 	private function set_total_shipping() {
-		$total_shipping = 0;
+
 		$base_shipping  = $this->get( 'base_shipping' );
 		$item_shipping  = wp_list_pluck( $this->get_cart_contents(), 'pnp' );
 
 		$this->meta_data['total_shipping'] = $base_shipping + array_sum( $item_shipping );
+
 		return $this->meta_data['total_shipping'];
 	}
 
@@ -539,7 +541,7 @@ class WPSC_Purchase_Log {
 		extract( $this->args );
 
 		$format = self::get_column_format( $col );
-		$sql = $wpdb->prepare( "SELECT * FROM " . WPSC_TABLE_PURCHASE_LOGS . " WHERE {$col} = {$format}", $value );
+		$sql    = $wpdb->prepare( "SELECT * FROM " . WPSC_TABLE_PURCHASE_LOGS . " WHERE {$col} = {$format}", $value );
 
 		$this->exists = false;
 
@@ -597,8 +599,9 @@ class WPSC_Purchase_Log {
 	public function get_cart_contents() {
 		global $wpdb;
 
-		if ( $this->fetched )
+		if ( ! empty( $this->cart_contents ) && $this->fetched ) {
 			return $this->cart_contents;
+		}
 
 		$id = $this->get( 'id' );
 
@@ -629,8 +632,7 @@ class WPSC_Purchase_Log {
 
 		$subtotal = 0;
 		$shipping = wpsc_convert_currency( (float) $this->get( 'base_shipping' ), $from_currency, $to_currency );
-		$tax = 0;
-		$items = array();
+		$items    = array();
 
 		$this->gateway_data = array(
 			'amount'  => wpsc_convert_currency( $this->get( 'totalprice' ), $from_currency, $to_currency ),
@@ -775,8 +777,11 @@ class WPSC_Purchase_Log {
 		}
 
 		if ( $this->is_status_changed ) {
-			if ( $this->is_transaction_completed() )
+
+			if ( $this->is_transaction_completed() ) {
 				$this->update_downloadable_status();
+			}
+
 			$current_status = $this->get( 'processed' );
 			$previous_status = $this->previous_status;
 			$this->previous_status = $current_status;

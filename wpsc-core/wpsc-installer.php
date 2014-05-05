@@ -14,12 +14,12 @@ function wpsc_auto_update() {
 	$wpsc_minor_version = get_option( 'wpsc_minor_version' );
 
 	if ( $wpsc_version === false )
-		add_option( 'wpsc_version', WPSC_VERSION, '', 'yes' );
+		add_option( 'wpsc_version', WPSC_VERSION, '', 'no' );
 	else
 		update_option( 'wpsc_version', WPSC_VERSION );
 
 	if ( $wpsc_minor_version === false )
-		add_option( 'wpsc_minor_version', WPSC_MINOR_VERSION, '', 'yes' );
+		add_option( 'wpsc_minor_version', WPSC_MINOR_VERSION, '', 'no' );
 	else
 		update_option( 'wpsc_minor_version', WPSC_MINOR_VERSION );
 
@@ -43,7 +43,7 @@ function wpsc_install() {
 	// whether WPSC_TABLE_CART_CONTENTS exists. This is an unfortunate hack, but we can do away with
 	// it in 3.9 as we'll drop support for 3.7.x then
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '" . WPSC_TABLE_CART_CONTENTS . "'" ) != WPSC_TABLE_CART_CONTENTS )
-		add_option( 'wpsc_db_version', WPSC_DB_VERSION, '', 'yes' );
+		add_option( 'wpsc_db_version', WPSC_DB_VERSION, '', 'no' );
 
 	// run the create or update code here.
 	wpsc_create_or_update_tables();
@@ -51,16 +51,16 @@ function wpsc_install() {
 
 	// All code to add new database tables and columns must be above here
 	$wpsc_version       = get_option( 'wpsc_version', 0 );
-	$wpsc_minor_version = get_option( 'wspc_minor_version', 0 );
+	$wpsc_minor_version = get_option( 'wpsc_minor_version', 0 );
 
 	if ( $wpsc_version === false ) {
-		add_option( 'wpsc_version', WPSC_VERSION, '', 'yes' );
+		add_option( 'wpsc_version', WPSC_VERSION, '', 'no' );
 	} else {
 		update_option( 'wpsc_version', WPSC_VERSION );
 	}
 
 	if ( $wpsc_minor_version === false )
-		add_option( 'wpsc_minor_version', WPSC_MINOR_VERSION, '', 'yes' );
+		add_option( 'wpsc_minor_version', WPSC_MINOR_VERSION, '', 'no' );
 	else
 		update_option( 'wpsc_minor_version', WPSC_MINOR_VERSION );
 
@@ -94,7 +94,7 @@ function wpsc_install() {
 		update_option('wpsc_enable_comments',0);
 
 	if('' == get_option('multi_add'))
-		update_option('multi_add',0);
+		update_option('multi_add',1);
 
 	if('' == get_option('hide_addtocart_button'))
 		update_option('hide_addtocart_button',0);
@@ -103,18 +103,17 @@ function wpsc_install() {
 		update_option('wpsc_addtocart_or_buynow',0);
 
 
-	add_option( 'show_thumbnails', 1, '', "yes" );
-	add_option( 'show_thumbnails_thickbox', 1, '', "yes" );
+	add_option( 'show_thumbnails', 1, '', 'no' );
+	add_option( 'show_thumbnails_thickbox', 1, '', 'no' );
 
-	add_option( 'product_list_url', '', '', 'yes' );
-	add_option( 'shopping_cart_url', '', '', 'yes' );
-	add_option( 'checkout_url', '', '', 'yes' );
-	add_option( 'transact_url', '', '', 'yes' );
-	add_option( 'payment_gateway', '','', 'yes' );
+	add_option( 'product_list_url', '', '', 'no' );
+	add_option( 'shopping_cart_url', '', '', 'no' );
+	add_option( 'checkout_url', '', '', 'no' );
+	add_option( 'transact_url', '', '', 'no' );
+	add_option( 'payment_gateway', '','', 'no' );
 
 	$default_payment_gateways_names = array(
 		'chronopay'						=> '',
-		'google'						=> '',
 		'wpsc_merchant_paypal_express'	=> '',
 		'wpsc_merchant_paypal_pro'		=> '',
 		'wpsc_merchant_paypal_standard'	=> ''
@@ -125,63 +124,58 @@ function wpsc_install() {
 
 
 	if ( function_exists( 'register_sidebar' ) )
-		add_option( 'cart_location', '4','', 'yes' );
+		add_option( 'cart_location', '4','', 'no' );
 	else
-		add_option( 'cart_location', '1', '', 'yes' );
+		add_option( 'cart_location', '1', '', 'no' );
 
-	add_option( 'currency_type', '156','', 'yes' );
-	add_option( 'currency_sign_location', '3', '', 'yes' );
+	add_option( 'currency_type', '156','', 'no' );
+	add_option( 'currency_sign_location', '3', '', 'no' );
 
-	add_option( 'gst_rate', '1','', 'yes' );
+	add_option( 'gst_rate', '1','', 'no' );
 
-	add_option( 'max_downloads', '1','', 'yes' );
+	add_option( 'max_downloads', '1','', 'no' );
 
-	add_option( 'display_pnp', '1', '', 'yes' );
+	add_option( 'display_pnp', '1', '', 'no' );
 
-	add_option( 'display_specials', '1', '', 'yes' );
-	add_option( 'do_not_use_shipping', '1', '', 'yes' );
+	add_option( 'display_specials', '1', '', 'no' );
+	add_option( 'do_not_use_shipping', '1', '', 'no' );
 
-	add_option( 'postage_and_packaging', '0','', 'yes' );
-    add_option( 'shipwire', '0', '', 'yes' );
-    add_option( 'shipwire_test_server', '0', '', 'yes' );
+	add_option( 'postage_and_packaging', '0','', 'no' );
+    add_option( 'shipwire', '0', '', 'no' );
+    add_option( 'shipwire_test_server', '0', '', 'no' );
 
-	add_option( 'purch_log_email', '', '', 'yes' );
-	add_option( 'return_email', '', '', 'yes' );
-	add_option( 'terms_and_conditions', '', '', 'yes' );
+	add_option( 'purch_log_email', '', '', 'no' );
+	add_option( 'return_email', '', '', 'no' );
+	add_option( 'terms_and_conditions', '', '', 'no' );
 
-	add_option( 'google_key', 'none', '', 'yes' );
-	add_option( 'google_id', 'none', '', 'yes' );
+	add_option( 'default_brand', 'none', '', 'no' );
+	add_option( 'wpsc_default_category', 'all', '', 'no' );
 
-	add_option( 'default_brand', 'none', '', 'yes' );
-	add_option( 'wpsc_default_category', 'all', '', 'yes' );
-
-	add_option( 'product_view', 'default', "", 'yes' );
+	add_option( 'product_view', 'default', "", 'no' );
 	add_option( 'add_plustax', 'default', "", '1' );
 
-
-	add_option( 'nzshpcrt_first_load', '0', "", 'yes' );
 
 	if ( !((get_option( 'show_categorybrands' ) > 0) && (get_option( 'show_categorybrands' ) < 3)) )
 		update_option( 'show_categorybrands', 2 );
 
 	// PayPal options
-	add_option( 'paypal_business', '', '', 'yes' );
-	add_option( 'paypal_url', '', '', 'yes' );
-	add_option( 'paypal_ipn', '1', '', 'yes' );
+	add_option( 'paypal_business', '', '', 'no' );
+	add_option( 'paypal_url', '', '', 'no' );
+	add_option( 'paypal_ipn', '1', '', 'no' );
 
 
-	add_option( 'paypal_multiple_business', '', '', 'yes' );
+	add_option( 'paypal_multiple_business', '', '', 'no' );
 
 	add_option( 'paypal_multiple_url', "https://www.paypal.com/cgi-bin/webscr" );
 
-	add_option( 'product_ratings', '0', '', 'yes' );
+	add_option( 'product_ratings', '0', '', 'no' );
 	add_option( 'wpsc_email_receipt', __( 'Thank you for purchasing with %shop_name%, any items to be shipped will be processed as soon as possible, any items that can be downloaded can be downloaded using the links on this page. All prices include tax and postage and packaging where applicable.
 You ordered these items:
-%product_list%%total_shipping%%total_price%', 'wpsc' ), '', 'yes' );
+%product_list%%total_shipping%%total_price%', 'wpsc' ), '', 'no' );
 
-	add_option( 'wpsc_email_admin', __( '%product_list%%total_shipping%%total_price%', 'wpsc' ), '','yes' );
+	add_option( 'wpsc_email_admin', __( '%product_list%%total_shipping%%total_price%', 'wpsc' ), '','no' );
 
-	add_option( 'wpsc_selected_theme', 'default', '', 'yes' );
+	add_option( 'wpsc_selected_theme', 'default', '', 'no' );
 
 	add_option( 'product_image_height', 148);
 	add_option( 'product_image_width', 148);
@@ -198,9 +192,9 @@ You ordered these items:
 	add_option( 'wpsc_thousands_separator', ',' );
 	add_option( 'wpsc_decimal_separator', '.' );
 
-	add_option( 'custom_gateway_options', array('wpsc_merchant_testmode'), '', 'yes' );
+	add_option( 'custom_gateway_options', array('wpsc_merchant_testmode'), '', 'no' );
 
-	add_option( 'wpsc_category_url_cache', array(), '', 'yes' );
+	add_option( 'wpsc_category_url_cache', array(), '', 'no' );
 
 	// add in some default tax settings
 	add_option( 'wpec_taxes_inprice', 'exclusive' );
@@ -732,7 +726,7 @@ function wpsc_add_checkout_fields() {
 	( '" . __( 'Postal Code', 'wpsc' ) . "', 'text', '0', '0', '1', '1', 17,'shippingpostcode');";
 
 		$wpdb->query( $sql );
-		$wpdb->query( "INSERT INTO `" . WPSC_TABLE_CHECKOUT_FORMS . "` ( `name`, `type`, `mandatory`, `display_log`, `default`, `active`, `checkout_order`, `unique_name` ) VALUES ( '" . __( 'Phone', 'wpsc' ) . "', 'text', '1', '0', '', '1', '8','billingphone');" );
+		$wpdb->query( "INSERT INTO `" . WPSC_TABLE_CHECKOUT_FORMS . "` ( `name`, `type`, `mandatory`, `display_log`, `default`, `active`, `checkout_order`, `unique_name` ) VALUES ( '" . __( 'Phone', 'wpsc' ) . "', 'text', '0', '0', '', '1', '8','billingphone');" );
 	}
 }
 function wpsc_rename_checkout_column(){

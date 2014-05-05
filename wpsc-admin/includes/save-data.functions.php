@@ -151,7 +151,7 @@ function wpsc_admin_category_forms_add() {
 	<h3><?php esc_html_e('Advanced Store Settings', 'wpsc'); ?></h3>
 	<h4><?php esc_html_e('Presentation Settings', 'wpsc'); ?></h4>
 	<p class='description'><?php esc_html_e( 'These settings override the general presentation settings found in Settings &gt; Store &gt; Presentation.', 'wpsc' ); ?></p>
-	<div class="form-field">
+	<div style="margin: 15px 0 15px 0">
 		<label for='image'><?php esc_html_e( 'Category Image' , 'wpsc' ); ?></label>
 		<input type='file' name='image' value='' />
 	</div>
@@ -182,7 +182,7 @@ function wpsc_admin_category_forms_add() {
 		if ( isset( $_GET["tag_ID"] ) )
 			$category_id = $_GET["tag_ID"];
 
-		$countrylist = $wpdb->get_results("SELECT id,country,visible FROM `" . WPSC_TABLE_CURRENCY_LIST . "` ORDER BY country ASC ", ARRAY_A);
+		$countrylist = WPSC_Countries::get_countries_array( true, true );
 		$selectedCountries = wpsc_get_meta( $category_id, 'target_market', 'wpsc_category' );
 	?>
 	<h4><?php esc_html_e( 'Restrict to Target Markets', 'wpsc' )?></h4>
@@ -238,8 +238,8 @@ function wpsc_admin_category_forms_add() {
 	<?php $uses_billing_address = (bool)wpsc_get_categorymeta( $category['term_id'], 'uses_billing_address' ); ?>
 	<div>
 		<label><?php esc_html_e( 'Address to calculate shipping with', 'wpsc' ); ?></label>
-		<label><input type='radio' value='1' name='uses_billing_address' <?php echo ( ( $uses_billing_address == true ) ? "checked='checked'" : "" ); ?> /> <?php esc_html_e( 'Billing Address', 'wpsc' ); ?></label>
-		<label><input type='radio' value='0' name='uses_billing_address' <?php echo ( ( $uses_billing_address != true ) ? "checked='checked'" : "" ); ?> /> <?php esc_html_e( 'Default Setting', 'wpsc' ); ?></label>
+		<label><input type="radio" value="0" name="uses_billing_address" <?php checked( $uses_billing_address, 0 ); ?> /> <?php esc_html_e( 'Shipping Address (default)', 'wpsc' ); ?></label>
+		<label><input type="radio" value="1" name="uses_billing_address" <?php checked( $uses_billing_address, 1 ); ?> /> <?php esc_html_e( 'Billing Address', 'wpsc' ); ?></label>
 		<p class='description'><?php esc_html_e( 'Products in this category will use the address specified to calculate shipping costs.', 'wpsc' ); ?></p>
 	</div>
 
@@ -374,7 +374,7 @@ function wpsc_admin_category_forms_edit() {
 		</td>
 	</tr>
 	<?php
-		$countrylist = $wpdb->get_results( "SELECT id,country,visible FROM `".WPSC_TABLE_CURRENCY_LIST."` ORDER BY country ASC ",ARRAY_A );
+		$countrylist = WPSC_Countries::get_countries_array( true, true );
 		$selectedCountries = wpsc_get_meta( $category_id,'target_market','wpsc_category' );
 	?>
 	<tr>
@@ -448,8 +448,8 @@ function wpsc_admin_category_forms_edit() {
 			<label><?php esc_html_e( 'Address to calculate shipping with', 'wpsc' ); ?></label>
 		</th>
 		<td>
-			<label><input type='radio' class='wpsc_cat_box'  value='0' name='uses_billing_address' <?php echo ( ( $uses_billing_address != true ) ? "checked='checked'" : "" ); ?> /> <?php esc_html_e( 'Default Setting', 'wpsc' ); ?></label>
-			<label><input type='radio' class='wpsc_cat_box' value='1' name='uses_billing_address' <?php echo ( ( $uses_billing_address == true ) ? "checked='checked'" : "" ); ?> /> <?php esc_html_e( 'Billing Address', 'wpsc' ); ?></label>
+			<label><input type="radio" class="wpsc_cat_box" value="0" name="uses_billing_address" <?php echo ( ( $uses_billing_address != true ) ? 'checked="checked"' : '' ); ?> /> <?php esc_html_e( 'Shipping Address (default)', 'wpsc' ); ?></label><br />
+			<label><input type="radio" class="wpsc_cat_box" value="1" name="uses_billing_address" <?php echo ( ( $uses_billing_address == true ) ? 'checked="checked"' : '' ); ?> /> <?php esc_html_e( 'Billing Address', 'wpsc' ); ?></label>
 			<p class='description'><?php esc_html_e( 'Products in this category will use the address specified to calculate shipping costs.', 'wpsc' ); ?></p>
 		</td>
 	</tr>
