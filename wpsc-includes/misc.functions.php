@@ -940,9 +940,6 @@ function wpsc_get_ajax_spinner() {
 	}
 
 	return apply_filters( 'wpsc_get_ajax_spinner', $url );
-<<<<<<< HEAD
-}
-=======
 }
 
 function _wpsc_remove_erroneous_files() {
@@ -966,4 +963,3 @@ function _wpsc_remove_erroneous_files() {
 if ( get_option( 'wpsc_38131_file_check', true ) ) {
 	add_action( 'admin_init', '_wpsc_remove_erroneous_files' );
 }
->>>>>>> c9161c09196b6c80cb785e845f3149f3c75b1ce2
